@@ -29,15 +29,52 @@
         
         <!-- Stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        
-        
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <style>
+            #container
+            {
+                margin:3px;   
+            }
+        </style>
         <!--Scripts -->
         <script type="text/javascript" src="cordova.js"></script>
-        
-        <title>Hello World</title>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="key.js"></script>
+        <script>
+            window.onload = function()
+            {
+                var URL = "http://www.flysfo.com/api/airlines.json?limit=100&key="
+                URL += KEY;
+                
+                $.ajax({
+                    dataType: "json",
+                    url: URL,
+                    success: success
+                });
+            }
+            
+            function success(e)
+            {
+                var result="";
+                $.each(e,function(index, value)
+                {
+                    //console.log("I: " + index + " V: " + value.node_title);   
+                    result += "<p><img src='http:" + value.image + "' /></p>";
+                    result += "<h3>" + value.node_title + "</h3>";
+                    result += "<p>" + value.phone + "</p>";
+                    result += value.body;
+                    result += "<div style='border-bottom: 1px solid black;'></div>";
+                });
+                $('#result').html(result);
+            }
+        </script>
+        <title>Restful API</title>
     </head>
     <body>
-        
-        
+        <div id="container">
+        <h1>Airlines At SFO</h1>
+        <div id="result"></div>
+        </div>
     </body>
 </html>
